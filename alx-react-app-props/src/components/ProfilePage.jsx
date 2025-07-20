@@ -1,9 +1,9 @@
 import React from 'react'
 import UserInfo from './UserInfo'
 
-function ProfilePage(userData) {
+function ProfilePage() {
   return (
-    <div><UserInfo userData={userData} />;</div>
+    <div><UserInfo />;</div>
   )
 }
 
