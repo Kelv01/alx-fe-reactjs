@@ -5,7 +5,7 @@ import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
 import UserProfile from "./components/UserProfile";
 import ProfilePage from "./components/ProfilePage";
-import UserContext from "./UserContext";
+import UserContext from "./components/UserContext";
 
 function App() {
   const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
