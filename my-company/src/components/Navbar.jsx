@@ -4,7 +4,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <nav style={{ padding: "1rem", background: "none" }}>
+    <nav style={{ padding: "1rem", background: "red",justifyContent: 'center' }}>
       <ul
         style={{ top: '0',
           display: "flex",
