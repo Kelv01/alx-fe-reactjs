@@ -1,6 +1,6 @@
 // src/components/EditRecipeForm.jsx
-import { useState } from 'react';
-import { useRecipeStore } from './recipeStore';
+import { useState } from "react";
+import useRecipeStore from "./recipeStore";
 
 const EditRecipeForm = ({ recipeId }) => {
   const recipe = useRecipeStore((state) =>
@@ -9,14 +9,14 @@ const EditRecipeForm = ({ recipeId }) => {
 
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
-  const [title, setTitle] = useState(recipe?.title || '');
-  const [description, setDescription] = useState(recipe?.description || '');
+  const [title, setTitle] = useState(recipe?.title || "");
+  const [description, setDescription] = useState(recipe?.description || "");
 
   const handleSubmit = (event) => {
     event.preventDefault(); // ✅ Prevent page reload
 
     updateRecipe(recipeId, { title, description });
-    alert('Recipe updated!');
+    alert("Recipe updated!");
     // Optional: Navigate or reset form
   };
 
