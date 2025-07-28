@@ -1,20 +1,23 @@
+import "./App.css";
 
-import './App.css'
-import AddRecipeForm from './components/AddRecipeForm'
-import RecipeList from './components/RecipeList'
+import Home from "./components/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
-  
-
   return (
     <>
       <div>
-        <RecipeList />
-        <AddRecipeForm />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/recipe/:id" element={<RecipeDetails />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </Routes>
+        </BrowserRouter>
       </div>
-      
     </>
-  )
+  );
 }
 
-export default App
+export default App;
