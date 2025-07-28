@@ -1,22 +1,30 @@
-import "./App.css";
-
-import Home from "./components/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import RecipeDetails from "./components/RecipeDetails";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, } from "react-router-dom";
+import { useRecipeStore } from "./components/recipeStore";
+import RecipeList from "./components/RecipeList";
+import AddRecipeForm from "./components/AddRecipeForm";
+import SearchBar from "./components/SearchBar";
+import RecipeDetail from "./components/RecipeDetail"; // assuming this exists
 
 function App() {
+  const { filterRecipes, searchTerm } = useRecipeStore();
+
+  useEffect(() => {
+    filterRecipes();
+  }, [searchTerm]);
+
   return (
-    <>
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/recipe/:id" element={<RecipeDetails />} />
-            {/* <Route path="*" element={<NotFound />} /> */}
-          </Routes>
-        </BrowserRouter>
+    <BrowserRouter>
+      <div className="app-container">
+        <h1>🍽️ Recipe Sharing App</h1>
+        <SearchBar />
+        <AddRecipeForm />
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/recipe/:id" element={<RecipeDetail />} />
+        </Routes>
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 
