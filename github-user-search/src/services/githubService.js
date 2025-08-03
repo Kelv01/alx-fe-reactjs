@@ -22,11 +22,11 @@ export const fetchUserData = async (username) => {
 };
 
 // Search with advanced filters
-export const fetchAdvancedUsers = async (username, location, repos) => {
+export const fetchAdvancedUsers = async (username, location, minrepos) => {
   try {
     let query = `${username}`;
     if (location) query += `+location:${location}`;
-    if (repos) query += `+repos:>=${repos}`;
+    if (minrepos) query += `+repos:>=${minrepos}`;
 
     const response = await githubApi.get(`/search/users?q=${query}`);
     return response.data.items; // Returns array of user results
