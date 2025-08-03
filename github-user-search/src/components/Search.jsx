@@ -4,7 +4,7 @@ import { fetchUserData, fetchAdvancedUsers } from "../services/githubService";
 function Search() {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
-  const [minrepos, setMinRepos] = useState('');
+  const [minRepos, setMinRepos] = useState('');
   const [userData, setUserData] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState('');
@@ -22,8 +22,8 @@ function Search() {
     setSearchResults([]);
 
     try {
-      if (location || minrepos) {
-        const users = await fetchAdvancedUsers(username, location, minrepos);
+      if (location || minRepos) {
+        const users = await fetchAdvancedUsers(username, location, minRepos);
         setSearchResults(users);
       } else {
         const data = await fetchUserData(username);
@@ -57,7 +57,7 @@ function Search() {
           className="px-3 py-2 bg-gray-800 rounded w-full"
           type="number"
           placeholder="Min Public Repos (optional)"
-          value={minrepos}
+          value={minRepos}
           onChange={(e) => setMinRepos(e.target.value)}
         />
         <button
