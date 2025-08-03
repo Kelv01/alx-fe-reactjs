@@ -7,15 +7,17 @@ const githubApi = axios.create({
   baseURL: "https://api.github.com",
   headers: {
     Authorization: `Bearer ${githubToken}`,
+    Accept: 'application/vnd.github+json'
   },
 });
 
-export const GetUserDetails = async () => {
+export const GetUserDetails = async (username) => {
   try {
-    const response = await githubApi.get("/user");// torvalds
+    const response = await githubApi.get(`/users/${username}`);// torvalds
     return response.data;
   } catch (error) {
-    console.error("Error fetching Github User:", error);
+    console.error(`Error fetching User ${username}:`, error);
     throw error;
   }
+
 };
