@@ -20,7 +20,7 @@ function Search ()  {
       const data = await GetUserDetails(username)
       setUserData(data)
     } catch (error) {
-      setError('User not found.', error)
+      setError('Looks like we cant find the user', error)
     }finally{
       setLoading(false)
     
