@@ -6,32 +6,34 @@ const githubApi = axios.create({
   baseURL: "https://api.github.com",
   headers: {
     Authorization: `Bearer ${githubToken}`,
-    Accept: 'application/vnd.github+json',
+    Accept: 'application/vnd.github+json'
   },
 });
 
-// Search by username
+// 1. Regular user fetch by username
 export const fetchUserData = async (username) => {
   try {
     const response = await githubApi.get(`/users/${username}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching user ${username}:`, error);
+    console.error(`Error fetching User ${username}:`, error);
     throw error;
   }
 };
 
-// Search with advanced filters
-export const fetchAdvancedUsers = async (username, location, minRepos) => {
+// 2. Advanced search: username, location, minRepos
+export const fetchAdvancedUserData = async (username, location, minRepos) => {
   try {
-    let query = `${username}`;
-    if (location) query += `+location:${location}`;
-    if (minRepos) query += `+repos:>=${minRepos}`;
+    let query = "";
 
-    const response = await githubApi.get(`/search/users?q=${query}`);
-    return response.data.items; // Returns array of user results
+    if (username) query += `${username} in:login`;
+    if (location) query += ` location:${location}`;
+    if (minRepos) query += ` repos:>=${minRepos}`;
+
+    const response = await githubApi.get(`/search/users?q=${encodeURIComponent(query)}`);
+    return response.data.items; // GitHub returns results in `items`
   } catch (error) {
-    console.error(`Error with advanced search:`, error);
+    console.error("Error in advanced user search:", error);
     throw error;
   }
 };
