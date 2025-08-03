@@ -11,7 +11,7 @@ const githubApi = axios.create({
   },
 });
 
-export const GetUserDetails = async (username) => {
+export const fetchUserData = async (username) => {
   try {
     const response = await githubApi.get(`/users/${username}`);// torvalds
     return response.data;
