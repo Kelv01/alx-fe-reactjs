@@ -30,7 +30,7 @@ export const fetchAdvancedUserData = async (username, location, minRepos) => {
     if (location) query += ` location:${location}`;
     if (minRepos) query += ` repos:>=${minRepos}`;
 
-    const response = await githubApi.get(`/search/users?q=${encodeURIComponent(query)}`);
+    const response = await githubApi.get(`https://api.github.com/search/users?q={query}${encodeURIComponent(query)}`);
     return response.data.items; // GitHub returns results in `items`
   } catch (error) {
     console.error("Error in advanced user search:", error);
