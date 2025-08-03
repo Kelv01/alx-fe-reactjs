@@ -33,11 +33,11 @@ function Search() {
   };
 
   return (
-    <div className="container px-2 py-4">
+    <div className="container px-4 py-6 max-w-xl mx-auto gap-4">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <input
-            className="px-2 py-2 bg-gray-600 text-white rounded-2xl w-full"
+            className="px-3 py-2 bg-gray-800 text-white rounded w-full"
             type="text"
             placeholder="Search username"
             value={username}
@@ -51,7 +51,7 @@ function Search() {
             placeholder="Location (optional)"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-          />
+          /> 
           <input
             className="px-2 py-2 bg-gray-600 text-white rounded-2xl w-full"
             type="number"
@@ -62,7 +62,7 @@ function Search() {
         </div>
         <button
           type="submit"
-          className="bg-blue-700 text-white rounded-2xl px-4 py-2"
+          className="bg-blue-700 text-white rounded-2xl px-4 py-2 hover:bg-blue-600 w-full"
         >
           Search
         </button>
