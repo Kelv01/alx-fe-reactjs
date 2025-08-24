@@ -3,19 +3,22 @@ import React, { useState } from "react";
 function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: true },
+    { id: 2, text: "Build a Todo App", completed: false },
   ]);
   const [newTodo, setNewTodo] = useState("");
 
-  // Add new todo
   const addTodo = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+    const todo = {
+      id: Date.now(),
+      text: newTodo,
+      completed: false,
+    };
+    setTodos([...todos, todo]);
     setNewTodo("");
   };
 
-  // Toggle todo completion
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -24,7 +27,6 @@ function TodoList() {
     );
   };
 
-  // Delete todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -32,6 +34,7 @@ function TodoList() {
   return (
     <div>
       <h1>Todo List</h1>
+
       <form onSubmit={addTodo}>
         <input
           type="text"
@@ -53,9 +56,7 @@ function TodoList() {
             }}
           >
             {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
-              Delete
-            </button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
