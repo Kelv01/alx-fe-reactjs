@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 function PostsComponent() {
   const [page, setPage] = useState(1);
 
-  // Fetch function with pagination
+  // Fetch posts with pagination
   const fetchPosts = async (page) => {
     const res = await fetch(
       `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${page}`
@@ -21,7 +21,10 @@ function PostsComponent() {
   } = useQuery({
     queryKey: ["posts", page],
     queryFn: () => fetchPosts(page),
-    keepPreviousData: true, // 👈 required for caching demo
+    keepPreviousData: true,      // ✅ keep old data while fetching new
+    cacheTime: 1000 * 60 * 5,    // ✅ cache for 5 minutes
+    staleTime: 1000 * 30,        // ✅ data stays fresh for 30 seconds
+    refetchOnWindowFocus: false, // ✅ disable auto-refetch on focus
   });
 
   if (isLoading) return <p>Loading...</p>;
