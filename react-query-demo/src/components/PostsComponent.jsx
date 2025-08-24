@@ -1,53 +1,61 @@
-// src/components/PostsComponent.jsx
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-
-// Function to fetch posts
-const fetchPosts = async () => {
-  const { data } = await axios.get("https://jsonplaceholder.typicode.com/posts");
-  return data;
-};
 
 function PostsComponent() {
-  // useQuery handles fetching, caching, error & loading states
+  const [page, setPage] = useState(1);
+
+  // Fetch function with pagination
+  const fetchPosts = async (page) => {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${page}`
+    );
+    return res.json();
+  };
+
   const {
-    data: posts,
+    data,
     isLoading,
     isError,
     error,
-    refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["posts"],   // cache key
-    queryFn: fetchPosts,   // fetching function
-    staleTime: 5000,       // cache freshness (5 seconds)
-    cacheTime: 1000 * 60 * 5, // keep cache for 5 minutes
-    refetchOnWindowFocus: false,
+    queryKey: ["posts", page],
+    queryFn: () => fetchPosts(page),
+    keepPreviousData: true, // 👈 required for caching demo
   });
 
-  if (isLoading) return <p>Loading posts...</p>;
+  if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="space-y-4">
-      <button
-        onClick={() => refetch()}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Refetch Posts
-      </button>
-
-      {isFetching && <p className="text-gray-500">Updating data...</p>}
-
+    <div className="p-6">
+      <h2 className="text-xl font-bold mb-4">Posts (Page {page})</h2>
       <ul className="space-y-2">
-        {posts.slice(0, 10).map((post) => (
-          <li key={post.id} className="p-3 border rounded shadow-sm">
-            <h3 className="font-semibold">{post.title}</h3>
+        {data?.map((post) => (
+          <li key={post.id} className="p-3 border rounded">
+            <strong>{post.title}</strong>
             <p>{post.body}</p>
           </li>
         ))}
       </ul>
+
+      <div className="flex gap-4 mt-4">
+        <button
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+          onClick={() => setPage((old) => Math.max(old - 1, 1))}
+          disabled={page === 1}
+        >
+          Previous
+        </button>
+        <button
+          className="px-4 py-2 bg-gray-300 rounded"
+          onClick={() => setPage((old) => old + 1)}
+        >
+          Next
+        </button>
+      </div>
+
+      {isFetching ? <p className="text-sm text-gray-500">Updating...</p> : null}
     </div>
   );
 }
