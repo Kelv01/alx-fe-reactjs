@@ -1,51 +1,41 @@
+// src/App.jsx
 import React from "react";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Profile from "./pages/Profile";
-import ProfileDetails from "./pages/ProfileDetails";
-import ProfileSettings from "./pages/ProfileSettings";
-import BlogPost from "./pages/BlogPost";
-import Login from "./pages/Login";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import About from "./components/About";
+import Profile from "./components/Profile";
+import ProfileDetails from "./components/ProfileDetails";
+import ProfileSettings from "./components/ProfileSettings";
+import BlogPost from "./components/BlogPost";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  return (
-    <div>
-      <nav className="flex gap-4 p-4 bg-gray-200">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/posts/1">Blog Post (1)</Link>
-      </nav>
+  const isAuthenticated = true; // simulate login status
 
+  return (
+    <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* ✅ Protected Route for Profile */}
+        {/* Protected + Nested Routes */}
         <Route
-          path="/profile/*"
+          path="/profile"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Profile />
             </ProtectedRoute>
           }
         >
-          {/* ✅ Nested Routes */}
           <Route path="details" element={<ProfileDetails />} />
           <Route path="settings" element={<ProfileSettings />} />
         </Route>
 
-        {/* ✅ Dynamic Route */}
-        <Route path="/posts/:id" element={<BlogPost />} />
-
-        <Route path="/login" element={<Login />} />
-
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* Dynamic Route */}
+        <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
-    </div>
+    </BrowserRouter>
   );
 }
 
