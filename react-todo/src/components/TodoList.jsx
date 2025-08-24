@@ -1,28 +1,18 @@
+// src/components/TodoList.jsx
 import React, { useState } from "react";
+import AddTodoForm from "./AddTodoForm";
+import TodoItem from "./TodoItem";
 
 function TodoList() {
-  // Initial demo todos
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: true },
-    { id: 3, text: "Write Tests", completed: false },
+    { id: 2, text: "Build Todo App", completed: true },
   ]);
-  const [input, setInput] = useState("");
 
-  // Add todo
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (input.trim() === "") return;
-    const newTodo = {
-      id: Date.now(),
-      text: input,
-      completed: false,
-    };
-    setTodos([...todos, newTodo]);
-    setInput("");
+  const addTodo = (text) => {
+    setTodos([...todos, { id: Date.now(), text, completed: false }]);
   };
 
-  // Toggle todo
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -31,40 +21,22 @@ function TodoList() {
     );
   };
 
-  // Delete todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <form onSubmit={addTodo}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Add a new todo"
-        />
-        <button type="submit">Add</button>
-      </form>
-
-      <ul>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Todo List</h1>
+      <AddTodoForm onAdd={addTodo} />
+      <ul data-testid="todo-list" className="mt-4 space-y-2">
         {todos.map((todo) => (
-          <li
+          <TodoItem
             key={todo.id}
-            onClick={() => toggleTodo(todo.id)}
-            style={{
-              textDecoration: todo.completed ? "line-through" : "none",
-              cursor: "pointer",
-            }}
-            data-testid="todo-item"
-          >
-            {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
-              Delete
-            </button>
-          </li>
+            todo={todo}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
         ))}
       </ul>
     </div>
